@@ -21,30 +21,36 @@ void in_order_traversal(BST *root)
     }
 }
 
-void insert_data(int data)
+BST *new_node(int data)
 {
-    BST *node  = malloc(sizeof(BST));
+    BST *temp = malloc(sizeof(BST));
 
-    node->data = data;
-    node->left = NULL;
-    node->right = NULL;
-    
-    if (root) {
-	BST *temp = root;
-	
-    } else {
-	root = node;
+    temp->data = data;
+    temp->left = NULL;
+    temp->right = NULL;
+
+    return temp;
+}
+BST *insert_data(BST *node, int data)
+{
+
+    if (node == NULL) {
+	return new_node(data);
     }
     
-    return;
+    if (node->data > data) {
+	node->left = insert_data(node->left, data);
+    } else {
+	node->right = insert_data(node->right, data);
+    }
 }
 
 int main()
 {
-    insert_data(5);
+    insert_data(root, 5);
     in_order_traversal(root);
-    insert_data(1);
-    insert_data(2);
-    insert_data(3);
+    insert_data(root, 1);
+    insert_data(root, 2);
+    insert_data(root, 3);
     in_order_traversal(root);
 }
