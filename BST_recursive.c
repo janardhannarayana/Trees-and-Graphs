@@ -74,8 +74,13 @@ int main()
     in_order_traversal(root);
     printf("\n");
     insert_data(root, 1);
+    insert_data(root, 12);
     insert_data(root, 2);
+    insert_data(root, 9);
     insert_data(root, 3);
+    insert_data(root, 11);
+    insert_data(root, 4);
+    insert_data(root, 100);
     in_order_traversal(root);
     printf("\n");    
     pre_order_traversal(root);
