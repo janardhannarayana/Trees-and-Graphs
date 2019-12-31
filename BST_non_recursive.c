@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 typedef struct bst BST;
+typedef struct stack STACK;
 
 struct bst {
     int data;
@@ -9,7 +10,51 @@ struct bst {
     BST *right;
 };
 
+struct stack {
+    BST *node;
+    STACK *next;
+};
+
 BST *root = NULL;
+STACK *first = NULL;
+
+void push(BST *node)
+{
+    STACK *temp = first;
+
+    STACK *t_node = malloc(sizeof(STACK));
+
+    t_node->node = node;
+    t_node->next = NULL;
+    
+    if (first == NULL) {
+	first = t_node;
+    } else {
+	while (temp->next != NULL) {
+	    temp = temp->next;
+	}
+	temp->next = t_node;
+    }	
+}
+
+void pop(BST **node)
+{
+    STACK *temp = first;
+    STACK *prev = NULL;
+
+    if (first) {
+	while (temp->next != NULL) {
+	    prev = temp;
+	    temp = temp->next;
+	}
+	if (first->next != NULL)
+	    prev->next = NULL;
+	else
+	    first = NULL;
+	*node = temp->node;
+	free(temp);
+    }
+}
 
 void in_order_traversal(BST *root)
 {
@@ -18,11 +63,31 @@ void in_order_traversal(BST *root)
 	printf("%d\t",root->data);
 	in_order_traversal(root->right);
     }
+}
 
+void in_order_traversal_non(BST *root)
+{
     BST *temp = root;
+    BST *curr = root;
+    int end = 0;
 
     if (temp == NULL) {
-	printf("No nodes available in the ")
+	printf("No nodes available\n");
+    } else {
+	while(!end) {
+	    if (temp != NULL) {
+		push(temp);
+		temp = temp->left;
+	    } else {
+		if (first != NULL) {
+		    pop(&temp);
+		    printf("%d\t",temp->data);
+		    temp = temp->right;
+		} else {
+		    end = 1;
+		}
+	    }
+	}
     }
 }
 
@@ -83,6 +148,9 @@ int main()
 {
     insert_data(5);
     in_order_traversal(root);
+    printf("\n");
+    in_order_traversal_non(root);
+    printf("\n");
     insert_data(1);
     insert_data(12);
     insert_data(2);
@@ -91,8 +159,11 @@ int main()
     insert_data(11);
     insert_data(4);
     insert_data(100);
+    insert_data(0);
     in_order_traversal(root);
-    printf("\n");    
+    printf("\n");
+    in_order_traversal_non(root);
+    printf("\n");
     pre_order_traversal(root);
     printf("\n");
     post_order_traversal(root);
