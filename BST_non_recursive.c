@@ -100,6 +100,22 @@ void pre_order_traversal(BST *root)
     }
 }
 
+void pre_order_traversal_non(BST *root)
+{
+    BST *temp = root;
+
+    push(root);
+    while (first != NULL) {
+	pop(&temp);
+	printf("%d\t",temp->data);
+
+	if (temp->right)
+	    push(temp->right);
+	if (temp->left)
+	    push(temp->left);
+    }
+}
+
 void post_order_traversal(BST *root)
 {
     if (root) {
@@ -108,7 +124,6 @@ void post_order_traversal(BST *root)
 	printf("%d\t",root->data);
     }
 }
-
 
 void insert_data(int data)
 {
@@ -165,6 +180,8 @@ int main()
     in_order_traversal_non(root);
     printf("\n");
     pre_order_traversal(root);
+    printf("\n");
+    pre_order_traversal_non(root);
     printf("\n");
     post_order_traversal(root);
     printf("\n");
