@@ -1,4 +1,4 @@
-/**
+/*
  * tree_terminology.c
  *
  * Written on Monday,  6 January 2020.
@@ -17,17 +17,48 @@ struct tree{
 
 BST *root = NULL;
 
-void insert_node(int data, BST *node)
+BST *insert_node(int data, BST *node)
 {
     if (node) {
 	if (node->data > data)
-	    insert_node(data,node->left);
+	    node->left = insert_node(data,node->left);
 	else
-	    insert_node(data,node->right);
+	    node->right = insert_node(data,node->right);
+	return node;
+    } else {
+	BST *temp = malloc(sizeof(BST));
+	temp->data = data;
+	temp->right = NULL;
+	temp->left = NULL;
+	if (root == NULL)
+	    root = temp;
+	return temp;
+    }
+}
+
+void find_the_parent(data)
+{
+    BST *temp = root;
+
+}
+
+void in_order_traversal(BST *node)
+{
+    if (node) {
+	in_order_traversal(node->left);
+	printf("%d->",node->data);
+	in_order_traversal(node->right);
     }
 }
 
 int main()
 {
-    
+    insert_node(5, root);
+    insert_node(10, root);
+    insert_node(1, root);
+    insert_node(9, root);
+    insert_node(12, root);
+    insert_node(7, root);
+    in_order_traversal(root);
+    printf("\n");
 }
