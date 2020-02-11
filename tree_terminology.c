@@ -57,16 +57,30 @@ void in_traverse(BST *node)
     }
 }
 
-void find_parent(int data, BST *child, BST *parent)
+BST *find_parent(int data, BST *child, BST *parent)
 {
     if (root == NULL) {
 	printf("No nodes in tree\n");
-	return;
-    }  
+	return NULL;
+    }
+    
+    if (child) {
+	if (child->data == data) {
+	    return parent;
+	} else {
+	    if (child->data > data)
+		find_parent(data, child->left, child);
+	    else
+		find_parent(data, child->right, child);
+	}
+    } else {
+	return NULL;
+    }
 }
 
 int main()
 {
+    BST *parent = NULL;
     insert_node(100, root);
     insert_node(1, root);
     insert_node(200, root);
@@ -76,5 +90,9 @@ int main()
     insert_node(30, root);
     insert_node(2, root);
     in_traverse(root);
+    printf("\n");
+    parent = find_parent(200, root, root);
+    if (parent)
+	printf("parent = %d\n",parent->data);
 }
 
