@@ -77,9 +77,49 @@ BST *find_parent(int data, BST *child, BST *parent)
 	return NULL;
     }
 }
+/*
+int find_height(BST *node, int *lheight, int *rheight)
+{
+    if (node) {
+	if (node->left) {
+	    (*lheight)++;
+	    find_height(node->left, lheight, rheight);
+	}
+	if (node->right) {
+	    (*rheight)++;
+	    find_height(node->right, lheight, rheight);
+	}
+    }
+    
+    return ( (*lheight) > (*rheight) ? (*lheight) : (*rheight));
+}
+*/
+
+int find_height(BST *node)
+{
+    static int lheight = 0;
+    static int rheight = 0;
+    if (node) {
+	if (node->left) {
+	    lheight++;
+	    find_height(node->left);
+	}
+	if (node->right) {
+	    rheight++;
+	    find_height(node->right);
+	}
+    }
+    
+    return ( lheight > rheight ? lheight : rheight);
+}
+
+
 
 int main()
 {
+    int lheight = 0;
+    int rheight = 0;
+    
     BST *parent = NULL;
     insert_node(100, root);
     insert_node(1, root);
@@ -89,10 +129,16 @@ int main()
     insert_node(11, root);
     insert_node(30, root);
     insert_node(2, root);
+    insert_node(15, root);
+    insert_node(14, root);
+    insert_node(13, root);
+    
     in_traverse(root);
     printf("\n");
-    parent = find_parent(200, root, root);
+    parent = find_parent(15, root, root);
     if (parent)
 	printf("parent = %d\n",parent->data);
+//    printf("%d\n",find_height(root, &lheight, &rheight));
+    printf("%d\n",find_height(root));
 }
 
