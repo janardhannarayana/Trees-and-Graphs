@@ -1,0 +1,8 @@
+Full Binary Tree:
+A tree is termed as full binary tree if all the nodes is having either 0 or 2 child nodes.
+
+Complete Binary Tree:
+A tree is termed as complete binary tree if all the levels are completely filled except the last level. The last level should have either completely filled or the nodes should be as left as possible
+
+Perfect binary tree:
+A tree is termed as Perfect Binary tree if all the nodes are having 2 sub nodes and all the leafs are at same level
