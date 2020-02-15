@@ -77,40 +77,20 @@ BST *find_parent(int data, BST *child, BST *parent)
 	return NULL;
     }
 }
-/*
-int find_height(BST *node, int *lheight, int *rheight)
-{
-    if (node) {
-	if (node->left) {
-	    (*lheight)++;
-	    find_height(node->left, lheight, rheight);
-	}
-	if (node->right) {
-	    (*rheight)++;
-	    find_height(node->right, lheight, rheight);
-	}
-    }
-    
-    return ( (*lheight) > (*rheight) ? (*lheight) : (*rheight));
-}
-*/
 
 int find_height(BST *node)
 {
-    static int lheight = 0;
-    static int rheight = 0;
     if (node) {
-	if (node->left) {
-	    lheight++;
-	    find_height(node->left);
-	}
-	if (node->right) {
-	    rheight++;
-	    find_height(node->right);
-	}
+	int lh = 0;
+	int rh = 0;
+
+	lh = find_height(node->left);
+	rh = find_height(node->right);
+
+	return (((lh > rh) ? lh : rh) + 1);
+    } else {
+	return -1;
     }
-    
-    return ( lheight > rheight ? lheight : rheight);
 }
 
 
