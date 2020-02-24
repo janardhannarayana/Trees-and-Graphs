@@ -9,13 +9,21 @@
 #include <string.h>
 
 typedef struct tree BST;
+typedef struct queue QUEUE;
+
 struct tree{
     int data;
     BST *left;
     BST *right;
 };
 
+struct queue {
+    BST *tree_node;
+    QUEUE *next;
+};
+
 BST *root = NULL;
+QUEUE *first = NULL;
 
 BST *allocate_node(int data)
 {
@@ -93,7 +101,64 @@ int find_height(BST *node)
     }
 }
 
+void enqueue(BST *tree_node)
+{
+    if (tree_node) {
+	QUEUE *node = malloc(sizeof(QUEUE));
+	
+	node->tree_node = tree_node;
+	node->next = first;
+	
+	first = node;
+    }
+}
 
+BST *dequeue()
+{
+    BST *temp = NULL;
+    
+    if (first && first->next == NULL) {
+	temp = first->tree_node;
+	free(first);
+	first = NULL;
+	return temp;
+    }
+    
+    if (first) {
+	QUEUE *curr = first;
+	QUEUE *prev = NULL;
+
+	while(curr->next) {
+	    prev = curr;
+	    curr = curr->next;
+	}
+	prev->next = NULL;
+	temp = curr->tree_node;
+	free(curr);
+	
+	return temp;
+    } else {
+	return NULL;
+    }
+}
+
+int isQueue()
+{
+    return (first ? 1 : 0);
+}
+
+void level_order_traversal(BST *root)
+{
+    BST *temp = NULL;
+    enqueue(root);
+
+    while(isQueue()) {
+	temp = dequeue();
+	printf("temp->data = %d\n",temp->data);
+	enqueue(temp->left);
+	enqueue(temp->right);
+    }
+}
 
 int main()
 {
@@ -106,19 +171,18 @@ int main()
     insert_node(200, root);
     insert_node(20, root);
     insert_node(10, root);
+    insert_node(12, root);
     insert_node(11, root);
     insert_node(30, root);
     insert_node(2, root);
     insert_node(15, root);
-    insert_node(14, root);
-    insert_node(13, root);
     
     in_traverse(root);
     printf("\n");
     parent = find_parent(15, root, root);
     if (parent)
 	printf("parent = %d\n",parent->data);
-//    printf("%d\n",find_height(root, &lheight, &rheight));
     printf("%d\n",find_height(root));
+    level_order_traversal(root);
 }
 
